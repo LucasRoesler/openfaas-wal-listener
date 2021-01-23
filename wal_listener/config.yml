@@ -1,0 +1,27 @@
+
+listener:
+  slotName: myslot_1
+  refreshConnection: 30s
+  heartbeatInterval: 10s
+logger:
+  caller: false
+  level: info
+  humanReadable: true
+database:
+  host: postgresql
+  port: 5432
+  name: app
+  user: postgres
+  debug: false
+  password: supersecret
+  filter:
+    tables:
+      users:
+        - insert
+        - update
+        - delete
+nats:
+  address: nats:4222
+  clusterID: faas-cluster
+  clientID: wal-listener
+  topicPrefix: "pre"

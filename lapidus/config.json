@@ -1,0 +1,18 @@
+{
+    "backends": [
+      {
+        "type": "postgresql",
+        "host": "postgresql",
+        "user": "postgres",
+        "database": "app",
+        "password": "supersecret",
+        "slot": "walts_raft",
+  
+        "plugins": {
+          "nats": {
+            "server": "nats://nats:4222"
+          }
+        }
+      }
+    ]
+  }
