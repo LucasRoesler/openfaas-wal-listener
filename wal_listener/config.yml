@@ -24,4 +24,4 @@ nats:
   address: nats:4222
   clusterID: faas-cluster
   clientID: wal-listener
-  topicPrefix: "pre"
+  topicPrefix: "sample_app"
