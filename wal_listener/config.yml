@@ -5,7 +5,7 @@ listener:
   heartbeatInterval: 10s
 logger:
   caller: false
-  level: info
+  level: debug
   humanReadable: true
 database:
   host: postgresql
@@ -24,4 +24,7 @@ nats:
   address: nats:4222
   clusterID: faas-cluster
   clientID: wal-listener
-  topicPrefix: "sample_app"
+  # all events go to the same topic
+  # you can also split by table name
+  # _or_ schema and table name
+  topic: "sample_app"

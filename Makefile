@@ -18,9 +18,11 @@ mins ?= "2"
 
 .PHONY: logs-faasd
 logs-faasd:
-	sudo journalctl -t faasd --since="${mins} minutes ago"
+	sudo journalctl -f -t faasd --since="${mins} minutes ago"
 
-.PHONY: logs-listener
-logs-listener:
-	sudo journalctl -t openfaas:wal-listener --since="${mins} minutes ago"
 
+service ?= faasd
+
+.PHONY: logs
+logs:
+	sudo journalctl -f -t openfaas:${service} --since="${mins} minutes ago"

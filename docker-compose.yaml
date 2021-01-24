@@ -28,7 +28,7 @@ services:
       - "127.0.0.1:5432:5432"
   
   wal-listener:
-    image: docker.io/theaxer/wal-listener:latest
+    image: docker.io/theaxer/wal-listener:v1.2.0-5-g66dbbab
     command:
       - "./wal-listener"
       - "-c" 
@@ -40,6 +40,29 @@ services:
     depends_on:
       - postgresql
       - nats
+
+  connector:
+    image: ghcr.io/openfaas/nats-connector:latest
+    environment:
+      gateway_url: http://gateway:8080
+      topics: "sample_app,"
+      print_response: "true"
+      basic_auth: "true"
+      asynchronous_invocation: "false"
+      secret_mount_path: "/run/secrets/"
+    volumes:
+      # we assume cwd == /var/lib/faasd
+      - type: bind
+        source: ./secrets/basic-auth-password
+        target: /run/secrets/basic-auth-password
+      - type: bind
+        source: ./secrets/basic-auth-user
+        target: /run/secrets/basic-auth-user
+    cap_add:
+      - CAP_NET_RAW
+    depends_on:
+      - nats
+      - gateway
 
   ### CORE SERVICES BELOW ###
   basic-auth-plugin:
@@ -68,8 +91,10 @@ services:
       - "8222"
       - "--store=memory"
       - "--cluster_id=faas-cluster"
+      - "-DV"
     ports:
        - "127.0.0.1:8222:8222"
+       - "127.0.0.1:4222:4222"
 
   prometheus:
     image: docker.io/prom/prometheus:v2.14.0
