@@ -15,7 +15,7 @@ services:
       - 'config_file=/etc/postgresql/postgresql.conf'
     volumes:
       - type: bind
-        source: ./postgresql/pgdata
+        source: ./postgres/pgdata
         target: /var/lib/postgresql/data/pgdata
       - type: bind
         source: ./postgresql/run

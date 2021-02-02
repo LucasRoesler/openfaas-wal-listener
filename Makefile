@@ -1,9 +1,12 @@
 
 .PHONY: install
-install: 
+install:
 	sudo cp -rf postgres /var/lib/faasd
+	sudo mkdir -p /var/lib/faasd/postgres/pgdata
+	sudo mkdir -p /var/lib/faasd/postgresql/run
 	sudo cp -rf wal_listener /var/lib/faasd
 	sudo cp docker-compose.yaml /var/lib/faasd
+	sudo chown -R 1000:1000 /var/lib/faasd/postgres
 
 
 .PHONY: restart
